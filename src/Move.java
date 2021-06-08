@@ -26,14 +26,14 @@ public class Move{
     public void jumpnow() throws InterruptedException {
         for(int i = 10 ; i >= 0 ; i--){
             myY -= i;
-            System.out.println(myY);
+          //  System.out.println(myY);
             Thread.sleep(20);
         }
         Thread.sleep(15);
         for(int i = 0; i<=10 ;i++)
         {
             myY += i;
-            System.out.println(myY);
+           // System.out.println(myY);
             Thread.sleep(20);
         }
         canjump = true;

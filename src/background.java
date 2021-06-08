@@ -12,7 +12,9 @@ public class background extends Move implements Runnable {
     JFrame frame;
     Canvas canvas;
     BufferStrategy bufferStrategy;
+    enemy_ground ene ;
     boolean running = true;
+    int ene1X;
 
     public background() {
         frame = new JFrame("Basic Game");
@@ -53,15 +55,19 @@ public class background extends Move implements Runnable {
             Paint();
             try {
                 Thread.sleep(25);
+                ene.move();
             } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+
         }
     }
-        public void Paint () {
+        public Graphics2D Paint () {
             Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
             g.clearRect(0, 0, 500, 500);
             Paint(g);
             bufferStrategy.show();
+            return g;
         }
 
 
@@ -73,6 +79,18 @@ public class background extends Move implements Runnable {
             g.draw(lin);
             g.draw(lin2);
             g.draw(lin3);
-
+            if(ene == null){
+                ene = new enemy_ground();
+                ene1X = ene.eneX;
+            }
+            else if(ene1X < -30){
+                ene = null;
+                ene = new enemy_ground();
+                ene1X = ene.eneX;
+            }
+            ene.createene(g);
         }
+
+
+
     }
