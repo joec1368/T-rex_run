@@ -12,9 +12,10 @@ public class background extends Move implements Runnable {
     JFrame frame;
     Canvas canvas;
     BufferStrategy bufferStrategy;
-    enemy_ground ene ;
+    enemy_ground ene = new enemy_ground();
+    enemy_middle_sky eneMidSky = new enemy_middle_sky();
+    enemy_top_sky eneTopSky = new enemy_top_sky();
     boolean running = true;
-    int ene1X;
 
     public background() {
         frame = new JFrame("Basic Game");
@@ -32,11 +33,12 @@ public class background extends Move implements Runnable {
             @Override
             public void keyPressed(KeyEvent evt) {
                 try {
-                    moveIt(evt);
+                    if(canjump) moveIt(evt);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+
         });
 
 
@@ -54,8 +56,9 @@ public class background extends Move implements Runnable {
         while (running = true) {
             Paint();
             try {
+                if(!canjump) jumpnow();
                 Thread.sleep(25);
-                ene.move();
+               enemy();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -72,23 +75,24 @@ public class background extends Move implements Runnable {
 
 
         protected void Paint (Graphics2D g){
-            g.fillOval(myX, myY, 30, 30);
+            g.fillOval(myX, myY, 30, myH);
             Line2D lin = new Line2D.Float(0, 430, 500,430);
-            Line2D lin2 = new Line2D.Float(0, 400, 500,400);
-            Line2D lin3 = new Line2D.Float(0, 345, 500,345);
             g.draw(lin);
-            g.draw(lin2);
-            g.draw(lin3);
-            if(ene == null){
-                ene = new enemy_ground();
-                ene1X = ene.eneX;
-            }
-            else if(ene1X < -30){
-                ene = null;
-                ene = new enemy_ground();
-                ene1X = ene.eneX;
-            }
-            ene.createene(g);
+            Paintenemy(g);
+
+        }
+        protected void Paintenemy(Graphics2D g){
+             ene.createene(g);
+             eneTopSky.createene(g);
+            eneMidSky.createene(g);
+        }
+        protected void enemy() throws InterruptedException {
+            ene.move();
+             ene.getvalue(myY);
+             eneTopSky.getvaluY(myY);
+             eneTopSky.move();
+            eneMidSky.move();
+            eneMidSky.getvalueY(myY);
         }
 
 
