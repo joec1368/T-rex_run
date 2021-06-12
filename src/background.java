@@ -1,20 +1,23 @@
-import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
 
 public class background extends Move implements Runnable {
     JFrame frame;
     Canvas canvas;
     BufferStrategy bufferStrategy;
-    enemy_ground ene = new enemy_ground();
-    enemy_middle_sky eneMidSky = new enemy_middle_sky();
-    enemy_top_sky eneTopSky = new enemy_top_sky();
+  //  enemy_ground ene = new enemy_ground();
+    enemy_ground[] enemy_grounds = new enemy_ground[2000];
+    enemy_middle_sky[] enemy_middle_skies = new enemy_middle_sky[2000];
+    enemy_top_sky[] enemy_top_skies = new enemy_top_sky[2000];
+   // enemy_middle_sky eneMidSky = new enemy_middle_sky();
+  //  enemy_top_sky eneTopSky = new enemy_top_sky();
+    int numberGroundEnemy = 0;
+    int numberMiddleSkyEnemy = 0;
+    int numberTopSkyEnemy = 0;
     boolean running = true;
 
     public background() {
@@ -33,7 +36,7 @@ public class background extends Move implements Runnable {
             @Override
             public void keyPressed(KeyEvent evt) {
                 try {
-                    if(canjump) moveIt(evt);
+                    if(canJump) moveIt(evt);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -56,8 +59,9 @@ public class background extends Move implements Runnable {
         while (running = true) {
             Paint();
             try {
-                if(!canjump) jumpnow();
-                Thread.sleep(25);
+                if(!canJump) jumpnow();
+               // Thread.sleep(25);
+                Thread.sleep(15);
                enemy();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -78,21 +82,60 @@ public class background extends Move implements Runnable {
             g.fillOval(myX, myY, 30, myH);
             Line2D lin = new Line2D.Float(0, 430, 500,430);
             g.draw(lin);
-            Paintenemy(g);
+            PaintEnemy(g);
 
         }
-        protected void Paintenemy(Graphics2D g){
-             ene.createene(g);
-             eneTopSky.createene(g);
-            eneMidSky.createene(g);
+        protected void PaintEnemy(Graphics2D g){
+            int temp = 0;
+            int temp1 = 0;
+            int temp2 = 0;
+            while (enemy_grounds[temp] != null) {
+                enemy_grounds[temp].createEne(g);
+                temp ++;
+            }while (enemy_middle_skies[temp1] != null) {
+                enemy_middle_skies[temp1].createene(g);
+                temp1 ++;
+            }
+            while (enemy_top_skies[temp2] != null) {
+                enemy_top_skies[temp2].createene(g);
+                temp2 ++;
+            }
         }
         protected void enemy() throws InterruptedException {
-            ene.move();
-             ene.getvalue(myY);
-             eneTopSky.getvaluY(myY);
-             eneTopSky.move();
-            eneMidSky.move();
-            eneMidSky.getvalueY(myY);
+            switch(RandomNum.randomNumber()){
+                case 0:
+                    enemy_grounds[numberGroundEnemy++] = new enemy_ground();
+                    break;
+                case 1:
+                    enemy_middle_skies[numberMiddleSkyEnemy++] = new enemy_middle_sky();
+                    break;
+                case 2:
+                    enemy_top_skies[numberTopSkyEnemy++] = new enemy_top_sky();
+                    break;
+            }
+            enemyMove();
+
+        }
+        protected void enemyMove() throws InterruptedException {
+            int temp = 0;
+            int temp1 = 0;
+            int temp2 = 2;
+            while (enemy_grounds[temp] != null) {
+                enemy_grounds[temp].move();
+                enemy_grounds[temp].getValue(myY);
+                temp ++;
+            }
+            while (enemy_middle_skies[temp1] != null) {
+                enemy_middle_skies[temp1].move();
+                enemy_middle_skies[temp1].getvalueY(myY);
+                temp1 ++;
+            }
+            while (enemy_top_skies[temp2] != null) {
+                enemy_top_skies[temp2].move();
+                enemy_top_skies[temp2].getvaluY(myY);
+                temp2 ++;
+            }
+
         }
 
 

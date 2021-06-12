@@ -16,15 +16,16 @@ public class enemy_ground {
       }
 
       else{
-          eneX = 550;
+          eneX = 10000;
       }
 
     }
 
-    public void createene(Graphics2D g){
+    public void createEne(Graphics2D g){
         g.drawRect(eneX, eneY, 30, 30);
+
     }
-    public void getvalue(int y){
+    public void getValue(int y){
         myY = y;
     }
 

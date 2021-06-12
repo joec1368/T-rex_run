@@ -3,12 +3,13 @@ import java.awt.event.KeyEvent;
 public class Move{
     int myX = 100;
     int myY = 400;
+
     int myH = 30;
     int i = 10;
     int storageY;
-    boolean canjump = true;
+    boolean canJump = true;
     public void moveIt(KeyEvent evt) throws InterruptedException {
-        if(!canjump){
+        if(!canJump){
             jumpnow();
         }
         switch (evt.getKeyCode()) {
@@ -19,8 +20,8 @@ public class Move{
                 }
                 break;
             case KeyEvent.VK_UP:
-                if(canjump){
-                    canjump = false;
+                if(canJump){
+                    canJump = false;
                     if(myH == 15){
                         myH = 30;
                         myY = myY-15;
@@ -49,9 +50,9 @@ public class Move{
             myY -= i;
             storageY = myY;
         }
-        else canjump = true;
+        else canJump = true;
         i--;
-        if(canjump)
+        if(canJump)
         {
             i = 10;
             storageY = myY;

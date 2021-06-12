@@ -14,7 +14,7 @@ public class enemy_middle_sky {
                 meet.touch(myY);
             }
             else{
-                eneX = 550;
+                eneX = 10000;
             }
 
         }

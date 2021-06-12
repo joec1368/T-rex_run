@@ -17,7 +17,7 @@ public class enemy_top_sky {
 
         }
         else{
-            eneX = 550;
+            eneX = 10000;
         }
 
     }
