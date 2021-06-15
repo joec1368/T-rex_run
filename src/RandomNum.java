@@ -1,7 +1,15 @@
 import java.util.Random;
 
 public class RandomNum {
-    public static int randomNumber(){
-        return new Random().nextInt(300);
+    long times = 1;
+    public int randomNumber(long time) throws InterruptedException {
+        if(time - times*1000 >= 0 ){
+            times++;
+            System.out.println(times);
+            return new Random().nextInt(3);
+        }
+
+        return 5;
     }
+
 }

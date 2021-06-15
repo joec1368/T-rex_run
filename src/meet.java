@@ -18,17 +18,19 @@ public class meet extends Move{
        // myY = Move.classvaly;
         myH = super.myH;
     }
-    public void touch(int myY){
+    public boolean touch(int myY){
         getvaluefrommain();
        // System.out.println(myY);
         if(myX - x <30 && myX - x > -30)
         {
             System.out.println("x ready");
             if(myY - y < myH && myY - y > -myH){
-                System.exit(0);
-                System.out.println("allready");
+
+                return false;
+
             }
         }
+        return true;
     }
 
 }

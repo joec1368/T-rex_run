@@ -5,17 +5,19 @@ public class enemy_middle_sky {
         int eneX = 750;
         int myY;
         meet meet = new meet();
-        public void move() throws InterruptedException {
+        boolean checkFinal = true;
+        public boolean move() throws InterruptedException {
             meet.getvalue(eneX,eneY);
-            if(eneX > -30){
+         //   if(eneX > -30){
                 eneX = eneX - 10;
                 //System.out.println(eneX);
                 meet.getvaluefrommain();
-                meet.touch(myY);
-            }
-            else{
-                eneX = 10000;
-            }
+                checkFinal = meet.touch(myY);
+                return checkFinal;
+           // }
+           // else{
+          //      eneX = 10000;
+           // }
 
         }
 

@@ -8,6 +8,7 @@ public class Move{
     int i = 10;
     int storageY;
     boolean canJump = true;
+
     public void moveIt(KeyEvent evt) throws InterruptedException {
         if(!canJump){
             jumpnow();
@@ -37,7 +38,6 @@ public class Move{
                 System.out.println(myX);
                 break;
         }
-       // switch (evt.)
 
     }
     public void jumpnow() throws InterruptedException {
@@ -57,22 +57,18 @@ public class Move{
             i = 10;
             storageY = myY;
         }
+    }
 
-        /*for(int i = 10 ; i >= 0 ; i--){
-            myY -= i;
-
-          //  System.out.println(myY);
-            Thread.sleep(25);
+    public void instanceDown() {
+        if (myY > 400) {
+            myY = myY - 5;
         }
-        Thread.sleep(15);
-        for(int i = 0; i<=10 ;i++)
-        {
-            myY += i;
-           // System.out.println(myY);
-            Thread.sleep(25);
-        }
-        canjump = true;*/
+        if (myY <= 400) {
+            myY = 400;
+            canJump = true;
+            i = 10;
 
+        }
     }
 
 }

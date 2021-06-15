@@ -9,19 +9,21 @@ public class background extends Move implements Runnable {
     JFrame frame;
     Canvas canvas;
     BufferStrategy bufferStrategy;
-  //  enemy_ground ene = new enemy_ground();
     enemy_ground[] enemy_grounds = new enemy_ground[2000];
     enemy_middle_sky[] enemy_middle_skies = new enemy_middle_sky[2000];
     enemy_top_sky[] enemy_top_skies = new enemy_top_sky[2000];
-   // enemy_middle_sky eneMidSky = new enemy_middle_sky();
-  //  enemy_top_sky eneTopSky = new enemy_top_sky();
     int numberGroundEnemy = 0;
     int numberMiddleSkyEnemy = 0;
     int numberTopSkyEnemy = 0;
     boolean running = true;
+    timer timerBackground = new timer();
+    int lag = 25;
+    RandomNum RandomNum = new RandomNum();
+    long returnTime;
 
     public background() {
-        frame = new JFrame("Basic Game");
+        timerBackground.setTime();
+        frame = new JFrame("T-rex?");
         JPanel panel = (JPanel) frame.getContentPane();
 
 
@@ -37,6 +39,12 @@ public class background extends Move implements Runnable {
             public void keyPressed(KeyEvent evt) {
                 try {
                     if(canJump) moveIt(evt);
+                    else {
+                       if(evt.getKeyCode()==KeyEvent.VK_DOWN){
+                           instanceDown();
+
+                       }
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -44,9 +52,9 @@ public class background extends Move implements Runnable {
 
         });
 
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+
         frame.setResizable(false);
         frame.setVisible(true);
         canvas.createBufferStrategy(2);
@@ -56,13 +64,17 @@ public class background extends Move implements Runnable {
 
 
     public void run() {
-        while (running = true) {
+        while (true) {
             Paint();
             try {
                 if(!canJump) jumpnow();
-               // Thread.sleep(25);
-                Thread.sleep(15);
-               enemy();
+                lagTime();
+                enemy();
+                if(!running)
+                {
+                   returnTime = timerBackground.time();
+                    break;
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -73,6 +85,8 @@ public class background extends Move implements Runnable {
             Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
             g.clearRect(0, 0, 500, 500);
             Paint(g);
+            g.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+            g.drawString("Survive Time : " + timerBackground.time() + "s",150,200);
             bufferStrategy.show();
             return g;
         }
@@ -97,12 +111,13 @@ public class background extends Move implements Runnable {
                 temp1 ++;
             }
             while (enemy_top_skies[temp2] != null) {
-                enemy_top_skies[temp2].createene(g);
+                 enemy_top_skies[temp2].createene(g);
                 temp2 ++;
             }
         }
         protected void enemy() throws InterruptedException {
-            switch(RandomNum.randomNumber()){
+
+            switch(RandomNum.randomNumber(timerBackground.originTime())){
                 case 0:
                     enemy_grounds[numberGroundEnemy++] = new enemy_ground();
                     break;
@@ -120,22 +135,47 @@ public class background extends Move implements Runnable {
             int temp = 0;
             int temp1 = 0;
             int temp2 = 2;
-            while (enemy_grounds[temp] != null) {
-                enemy_grounds[temp].move();
+            while (enemy_grounds[temp] != null && running) {
+                running = enemy_grounds[temp].move();
                 enemy_grounds[temp].getValue(myY);
                 temp ++;
             }
-            while (enemy_middle_skies[temp1] != null) {
-                enemy_middle_skies[temp1].move();
+            while (enemy_middle_skies[temp1] != null && running) {
+               running =  enemy_middle_skies[temp1].move();
                 enemy_middle_skies[temp1].getvalueY(myY);
                 temp1 ++;
             }
-            while (enemy_top_skies[temp2] != null) {
-                enemy_top_skies[temp2].move();
+            while (enemy_top_skies[temp2] != null && running) {
+               running = enemy_top_skies[temp2].move();
                 enemy_top_skies[temp2].getvaluY(myY);
                 temp2 ++;
             }
 
+        }
+
+        public void lagTime() throws InterruptedException {
+            if(timerBackground.time() <30)
+            {
+                Thread.sleep(lag);
+         //       System.out.println("mode1");
+            }
+            else if( timerBackground.time() >= 30 && timerBackground.time() < 60) {
+                Thread.sleep(lag - 3);
+           //     System.out.println("mode2");
+            }
+            else if (timerBackground.time() >= 60 && timerBackground.time() <90)
+            {
+                Thread.sleep(lag - 6);
+             //   System.out.println("mode3");
+            }
+            else if(timerBackground.time() >= 90)
+            {
+                Thread.sleep(lag - 9);
+               // System.out.println("mode4");
+            }
+        }
+        public void close(){
+        frame.dispose();
         }
 
 
