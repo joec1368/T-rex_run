@@ -8,6 +8,7 @@ public class finish implements ActionListener {
     JButton okButton, againButton;
     JFrame f= new JFrame();
     int temp = 0;
+
     public void background(long time) throws InterruptedException {
         textField =new JTextField();
         textField.setText("Servie Time : \n" +String.valueOf(time) + " s");
@@ -35,7 +36,9 @@ public class finish implements ActionListener {
             temp = 1;
 
     }
+
     public void close(){
         f.dispose();
     }
+
 }

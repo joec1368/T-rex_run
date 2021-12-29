@@ -25,11 +25,8 @@ public class background extends Move implements Runnable {
         timerBackground.setTime();
         frame = new JFrame("T-rex?");
         JPanel panel = (JPanel) frame.getContentPane();
-
-
         panel.setPreferredSize(new Dimension(500, 500));
         panel.setLayout(null);
-
         canvas = new Canvas();
         canvas.setBounds(0, 0, 500, 500);
         canvas.setIgnoreRepaint(true);
@@ -54,14 +51,12 @@ public class background extends Move implements Runnable {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-
         frame.setResizable(false);
         frame.setVisible(true);
         canvas.createBufferStrategy(2);
         bufferStrategy = canvas.getBufferStrategy();
         canvas.requestFocus();
     }
-
 
     public void run() {
         while (true) {
@@ -78,9 +73,9 @@ public class background extends Move implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     }
+
         public Graphics2D Paint () {
             Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
             g.clearRect(0, 0, 500, 500);
@@ -91,13 +86,11 @@ public class background extends Move implements Runnable {
             return g;
         }
 
-
         protected void Paint (Graphics2D g){
             g.fillOval(myX, myY, 30, myH);
             Line2D lin = new Line2D.Float(0, 430, 500,430);
             g.draw(lin);
             PaintEnemy(g);
-
         }
         protected void PaintEnemy(Graphics2D g){
             int temp = 0;
@@ -115,8 +108,8 @@ public class background extends Move implements Runnable {
                 temp2 ++;
             }
         }
-        protected void enemy() throws InterruptedException {
 
+        protected void enemy() throws InterruptedException {
             switch(RandomNum.randomNumber(timerBackground.originTime())){
                 case 0:
                     enemy_grounds[numberGroundEnemy++] = new enemy_ground();
@@ -129,55 +122,46 @@ public class background extends Move implements Runnable {
                     break;
             }
             enemyMove();
-
         }
+
         protected void enemyMove() throws InterruptedException {
             int temp = 0;
             int temp1 = 0;
             int temp2 = 2;
             while (enemy_grounds[temp] != null && running) {
                 running = enemy_grounds[temp].move();
-                enemy_grounds[temp].getValue(myY);
+                enemy_grounds[temp].getValue(myY,myX);
                 temp ++;
             }
             while (enemy_middle_skies[temp1] != null && running) {
                running =  enemy_middle_skies[temp1].move();
-                enemy_middle_skies[temp1].getvalueY(myY);
+                enemy_middle_skies[temp1].getvalueY(myY,myX);
                 temp1 ++;
             }
             while (enemy_top_skies[temp2] != null && running) {
                running = enemy_top_skies[temp2].move();
-                enemy_top_skies[temp2].getvaluY(myY);
+                enemy_top_skies[temp2].getvaluY(myY,myX);
                 temp2 ++;
             }
-
         }
 
         public void lagTime() throws InterruptedException {
-            if(timerBackground.time() <30)
-            {
+            if(timerBackground.time() <30){
                 Thread.sleep(lag);
-         //       System.out.println("mode1");
             }
             else if( timerBackground.time() >= 30 && timerBackground.time() < 60) {
                 Thread.sleep(lag - 3);
-           //     System.out.println("mode2");
             }
             else if (timerBackground.time() >= 60 && timerBackground.time() <90)
             {
                 Thread.sleep(lag - 6);
-             //   System.out.println("mode3");
             }
             else if(timerBackground.time() >= 90)
             {
                 Thread.sleep(lag - 9);
-               // System.out.println("mode4");
             }
         }
         public void close(){
         frame.dispose();
         }
-
-
-
     }

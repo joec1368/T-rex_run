@@ -3,7 +3,6 @@ import java.awt.event.KeyEvent;
 public class Move{
     int myX = 100;
     int myY = 400;
-
     int myH = 30;
     int i = 10;
     int storageY;
@@ -38,10 +37,9 @@ public class Move{
                 System.out.println(myX);
                 break;
         }
-
     }
-    public void jumpnow() throws InterruptedException {
 
+    public void jumpnow() throws InterruptedException {
         if(i >= 0){
             myY -= i;
             storageY = myY;
@@ -67,8 +65,6 @@ public class Move{
             myY = 400;
             canJump = true;
             i = 10;
-
         }
     }
-
 }
